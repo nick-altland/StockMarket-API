@@ -1,0 +1,5 @@
+companyName, initialInvestment, interestRate, maturityPeriod
+apple,1000,5,20
+google,2000,2.5,10
+microsoft,3000,3,15
+disney,4000,4,20
