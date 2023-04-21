@@ -6,8 +6,8 @@
  *
  */
 
-#ifndef M2OEP_NALTLAND_STOCK_H
-#define M2OEP_NALTLAND_STOCK_H
+#ifndef FINAL_PROJECT_NALTLAND_STOCK_H
+#define FINAL_PROJECT_NALTLAND_STOCK_H
 
 #include "Investment.h"
 
@@ -78,4 +78,4 @@ public:
 };
 
 
-#endif //M2OEP_NALTLAND_STOCK_H
+#endif //FINAL_PROJECT_NALTLAND_STOCK_H

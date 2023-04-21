@@ -6,8 +6,8 @@
  *
  */
 
-#ifndef M1OEP_NALTLAND_MARKETAPI_H
-#define M1OEP_NALTLAND_MARKETAPI_H
+#ifndef FINAL_PROJECT_NALTLAND_MARKETAPI_H
+#define FINAL_PROJECT_NALTLAND_MARKETAPI_H
 
 
 
@@ -43,16 +43,6 @@ public:
     MarketAPI(int lineNumber, std::string fileHeader);
 
     /*
-     * readBondFile
-     * Requires: a file name, vector of Bonds, and company name
-     * Modifies: Nothing
-     * Effects: Reads through the list of known bonds, searching for the one given. If found, creates a new bond object from it
-     *          and returns it. If not, it creates a default bond and returns that
-     */
-    Bond readBondFile(std::string &fileName, std::vector<Bond> &bondsFromFile, std::string &companyName);
-
-
-    /*
      * readStockFile
      * Requires: a file name, vector of stocks company name
      * Modifies: Nothing
@@ -62,29 +52,12 @@ public:
     Stock readStockFile(std::string &fileName, std::vector<Stock> &stocksFromFile, std::string &companyName);
 
     /*
-     * writeBondFile
-     * Requires: a file name and a vector of bonds
-     * Modifies: the file that is passed through
-     * Effects: Takes the values of the vector and writes it to the file
-     */
-    void writeBondFile(std::string &fileName, std::vector<Bond> &bonds);
-
-    /*
      * writeStockFile
      * Requires: a file name and a vector of stocks
      * Modifies: the file that is passed through
      * Effects: Takes the values of the vector and writes it to the file being passed through
      */
     void writeStockFile(std::string &fileName, std::vector<Stock> &stocks);
-
-    /*
-     * compareInvestments
-     * Requires: A Bond and a Stock object
-     * Modifies: Nothing
-     * Effects: Takes a bond and a stock and compares them, after calculating and outputting several investment returns
-     */
-    void static compareInvestments(Bond &bond, Stock &stock);
-
 
     // Getter
     int getLineNumber() const;
@@ -136,4 +109,4 @@ public:
 
 };
 
-#endif //M1OEP_NALTLAND_MARKETAPI_H
+#endif //FINAL_PROJECT_NALTLAND_MARKETAPI_H

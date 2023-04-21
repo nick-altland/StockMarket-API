@@ -3,17 +3,16 @@ project(M2OEP-naltland)
 
 set(CMAKE_CXX_STANDARD 14)
 
-add_executable(M2OEP-naltland
+add_executable(Final-Project-naltland
         main.cpp
         marketAPI.h marketAPI.cpp
         Investment.cpp Investment.h
         Stock.cpp Stock.h
-        Bond.cpp Bond.h)
+        )
 
-add_executable(M2OEP-naltland_Testing
+add_executable(Final-Project-naltland_Testing
         marketAPITesting.cpp
-        marketAPI.h
-        marketAPI.cpp
+        marketAPI.h marketAPI.cpp
         Investment.cpp Investment.h
         Stock.cpp Stock.h
-        Bond.cpp Bond.h)
+        )

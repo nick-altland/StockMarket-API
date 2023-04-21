@@ -6,7 +6,6 @@
  *
  */
 
-#include "Bond.h"
 #include "marketAPI.h"
 #include "Stock.h"
 #include "Investment.h"
@@ -30,72 +29,6 @@ MarketAPI::MarketAPI(int lineNumber, string fileHeader) {
     this->lineNumber = lineNumber;
     this->fileHeader = fileHeader;
 }
-
-Bond MarketAPI:: readBondFile(string &fileName, vector<Bond> &bondFromFile, string &inputCompanyName){
-
-    cout << endl;
-
-    ifstream bondFile;
-    bondFile.open(fileName);
-
-    string header;
-    string companyName;
-    float initialInvestment;
-    float interestRate;
-    int maturityPeriod;
-    char comma;
-
-    bool found = false;
-
-    if (bondFile){
-        getline(bondFile, header);
-        this->fileHeader = header;
-    }
-    else{
-        cout << "Could not open file" << endl;
-    }
-
-    int count = 0;
-
-    while (bondFile && bondFile.peek() != EOF){
-
-        getline(bondFile, companyName, ',');
-
-        companyName.erase(remove(companyName.begin(), companyName.end(), '\n'), companyName.end());
-
-        bondFile >> initialInvestment;
-        bondFile >> comma;
-
-        bondFile >> interestRate;
-        bondFile >> comma;
-
-        bondFile >> maturityPeriod;
-
-        Bond newBond(companyName, initialInvestment, interestRate, maturityPeriod);
-
-        bondFromFile.push_back(newBond);
-
-        if(companyName == inputCompanyName){
-            this->lineNumber = count;
-            // cout << "Bond company name found on line " << lineNumber + 1 << endl;
-            found = true;
-        }
-        ++count;
-    }
-
-    bondFile.close();
-
-    if(found){
-        return bondFromFile[lineNumber];
-    }
-    else{
-        this->lineNumber = count;
-
-        Bond emptyBond;
-        return emptyBond;
-    }
-}
-
 
 Stock MarketAPI:: readStockFile(string &fileName, vector<Stock> &stocksFromFile, string &inputCompanyName){
 
@@ -168,28 +101,6 @@ Stock MarketAPI:: readStockFile(string &fileName, vector<Stock> &stocksFromFile,
     }
 }
 
-void MarketAPI::writeBondFile(string &fileName, vector<Bond> &bonds) {
-
-    ofstream outFile;
-    outFile.open(fileName);
-
-    outFile << fileHeader << endl;
-
-    for(int i = 0; i < bonds.size() -1; ++i){
-        outFile << bonds[i].getCompanyName() << ",";
-        outFile << bonds[i].getInitialInvestment() << ",";
-        outFile << bonds[i].getInterestRate() << ",";
-        outFile << bonds[i].getMaturityPeriod() << endl;
-    }
-
-    outFile << bonds[bonds.size() -1].getCompanyName() << ",";
-    outFile << bonds[bonds.size() -1].getInitialInvestment() << ",";
-    outFile << bonds[bonds.size() -1].getInterestRate() << ",";
-    outFile << bonds[bonds.size() -1].getMaturityPeriod();
-
-    outFile.close();
-}
-
 void MarketAPI::writeStockFile(string &fileName, vector<Stock> &stocks) {
 
     ofstream outFile;
@@ -218,46 +129,6 @@ void MarketAPI::writeStockFile(string &fileName, vector<Stock> &stocks) {
 
 int MarketAPI::getLineNumber() const {
     return lineNumber;
-}
-
-void MarketAPI::compareInvestments(Bond &bond, Stock &stock) {
-    float bondInterestEarned;
-
-    // See how much interest the bond will earn over its life span
-    bondInterestEarned =  bond.calculateInterestEarned(bond);
-    bond.setYearlyReturns(bondInterestEarned/bond.getMaturityPeriod());
-
-    stock.calculateIntrinsicValue(stock);
-
-    stock.setYearlyReturns((stock.getEarningsPerShare()*stock.getInitialInvestment())/stock.getCurrentMarketValue());
-
-    cout << endl << "A Bond with " << bond.getCompanyName() << " will generate a total of " << bondInterestEarned << " interest over it's life span of " << bond.getMaturityPeriod() << " years,";
-    cout << " given an investment of " << bond.getInitialInvestment() << "$."<< endl;
-
-    cout << "The stock of ";
-    if(stock.getIntrinsicDifference() >=0){
-        cout << stock.getCompanyName() << " is currently OVERVALUED on the market by " << stock.getIntrinsicDifference() << ". I would not recommend purchasing it." << endl;
-    }
-    else if(stock.getIntrinsicDifference() < 0){
-        cout << stock.getCompanyName() << " is currently UNDERVALUED on the market by " << stock.getIntrinsicDifference() << ". It may be a good purchase." << endl;
-    }
-    cout << endl;
-
-    // Print out the Stock earnings per share * the amount invested / stock price. This would be the yearly amount earned
-    cout << "As for which will be more profitable yearly: " << endl;
-    cout << "Your bond will earn you " << bond.getYearlyReturns() << " yearly" << endl;
-    cout << "Your stock will earn you " << stock.getYearlyReturns() << " yearly" << endl;
-
-    if(bond.getYearlyReturns() > stock.getYearlyReturns()){
-        cout << "Your bond with " << bond.getCompanyName() << " will earn you more yearly then your stock with " << stock.getCompanyName() << endl;
-    }
-    else if(bond.getYearlyReturns() < stock.getYearlyReturns()){
-        cout << "Your stock with " << stock.getCompanyName() << " will earn you more yearly then your bond with " << bond.getCompanyName() << endl;
-    }
-    else{
-        cout << "Both your stock and your bond will earn equal amounts this year." << endl;
-    }
-
 }
 
 string MarketAPI::validateString() {

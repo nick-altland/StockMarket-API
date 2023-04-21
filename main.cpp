@@ -1,13 +1,11 @@
 /*
  * Nicholas Altland
- * CS120B: Open Ended Project
+ * CS120B: Final Project
  *
  * Stock Market API: main File
  *
  */
 
-
-#include "Bond.h"
 #include "Investment.h"
 #include "marketAPI.h"
 #include "Stock.h"
@@ -21,7 +19,6 @@ using namespace std;
 int main(){
     char userInputContinue = 'y';           // Used for main while loop, which exits when it is 'n'
     char valid;                             // Used for checking both bond and stock while loops
-    string bondFile = "../infoOnBonds.csv";     // Bond name
     string stockFile = "../infoOnStocks.csv";   // Stock name
     string companyName;                         // Company name
     int valueToChange = 0;                      // Integer for user input
@@ -31,93 +28,10 @@ int main(){
     cout << "You will be prompted first for a Bond, then for a Stock" << endl;
     cout << "Be sure to check to see if this investment already exists in our database!" << endl;
     cout << "After you have found two investments, I will compare their yearly returns and tell you which seems like a better investment." << endl;
-    cout << "You can then choose to find run through again or exit the program." << endl << endl;
+    cout << "You can then choose to find run through again or exit the program." << endl;
 
     // While loop for entire program.
     while(userInputContinue != 'n'){
-
-        // Create a bond marketAPI
-        MarketAPI bondAPI(1, "replace me");
-
-        // Create a bond vector
-        vector<Bond> bondsFromFile;
-
-        // Ask user for the company name for a bond
-        cout<< "What is the name of the company you would like to get a bond from today?: ";
-        companyName = MarketAPI::validateString();
-
-        // Search the file for the company name
-        Bond userBond = bondAPI.readBondFile(bondFile, bondsFromFile, companyName);
-
-        // If the bond returned has default values, it means that the company name was not found. Prompt user for new values
-        if(userBond.getCompanyName() == "Default Name"){
-            cout << "I do not have this Bond on record. Please enter the values for it." << endl;
-            userBond.setCompanyName(companyName);
-            cout << "What is the value of the Initial Investment in " << companyName << "?: ";
-            userBond.setInitialInvestment(MarketAPI::validateFloatValue());
-            cout << "What is the interest rate of the bond?: ";
-            userBond.setInterestRate(MarketAPI::validateFloatValue());
-            cout << "What is the maturity period (in years)?: ";
-            userBond.setMaturityPeriod(MarketAPI::validatePositiveInteger());
-
-            // Append this bond to the end of the vector
-            bondsFromFile.push_back(userBond);
-
-            // Since a bond has been added, we need to write this out to the file
-            bondAPI.writeBondFile(bondFile, bondsFromFile);
-        }
-        // Else, this is not a new bond, so print out values and ask user if they would like to change anything
-        else{
-            cout << "We have this bond on file!" << endl;
-            userBond.printBond(userBond);
-
-            // Get input from user
-            cout<< "Does the data above look correct? (y/n): ";
-            valid = MarketAPI::validateGoAgain();
-
-            // While the values are not correct, ask them what they would like to change
-            while(valid == 'n' || valid == 'N'){
-                cout << "What line would you like to change? (Enter 1 for Name, 2 for Investment Amount, 3 for Interest Rate, or 4 for Maturity?: ";
-                valueToChange = MarketAPI::validatePositiveInteger();
-                // While the value is not 1-4
-                while(valueToChange < 1 || valueToChange > 4){
-                    cout << "I am sorry, that was not one of the options" << endl;
-                    cout << "What line would you like to change? (Enter 1 for Name, 2 for Investment Amount, 3 for Interest Rate, or 4 for Maturity?: ";
-                    valueToChange = MarketAPI::validatePositiveInteger();
-                }
-                if(valueToChange == 1){
-                    cout << "What is the new company name?: ";
-                    userBond.setCompanyName(MarketAPI::validateString());
-                }
-                if(valueToChange == 2){
-                    cout << "What is the new initial investment amount?: ";
-                    userBond.setInitialInvestment(MarketAPI::validateFloatValue());
-                }
-                if(valueToChange == 3){
-                    cout << "What is the new interest rate?: ";
-                    userBond.setInterestRate(MarketAPI::validateFloatValue());
-                }
-                if(valueToChange == 4){
-                    cout << "What is the new Maturity Period?: ";
-                    userBond.setMaturityPeriod(MarketAPI::validatePositiveInteger());
-                }
-
-                cout << "Are you finished editing the values of this bond? (y/n): ";
-                valid = MarketAPI::validateGoAgain();
-
-                // If they are done editing the value of the bond, print the new value and rewrite the file
-                if(valid == 'y' || valid == 'Y'){
-                    cout << "The new values of your bond are: " << endl;
-                    userBond.printBond(userBond);
-
-                    // Go to the line that this bond was on and overwrite it
-                    bondsFromFile.at(bondAPI.getLineNumber()) = userBond;
-
-                    // Since the Bond has been changed, we need to write this out to the file
-                    bondAPI.writeBondFile(bondFile, bondsFromFile);
-                }
-            }
-        }
 
         // Create a Stock marketAPI
         MarketAPI stockAPI(1, "replace me");
@@ -214,8 +128,6 @@ int main(){
                 }
             }
         }
-
-        MarketAPI::compareInvestments(userBond, userStock);
 
         // Ask them if they create a new stock and a new bond. If yes, loop. If not, break loop
         cout << endl << "Do you wish to look up another Investment? (y/n): ";
