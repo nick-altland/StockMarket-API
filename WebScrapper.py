@@ -21,3 +21,15 @@ content = driver.page_source
 
 # Load contents into BeautifulSoup
 soup = BeautifulSoup(content, 'html.parser')
+
+# Loop through all elements returned by the findAll call
+for element in soup.findAll(attrs={'class': 'title'}):
+    name = element.find('a')
+    results.append(name.text)
+
+# Print Results to a CSV file
+# Create a data table, in this case 2D
+# Names is the Column, Results is the list from above
+# We can create multiple columns
+df = pd.DataFrame({'Names': results})
+df.to_csv('WebData.csv', index=False, encoding='utf-8')
