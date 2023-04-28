@@ -1,6 +1,2 @@
-companyName, initialInvestment, tickerName, currentMarketValue, expectedGrowth, earningsPerShare
-apple,1000,AAPL,154.5,7.3,6.11
-microsoft,1500,MSFT,258.35,11.1,9.01
-sony,3000,SONY,93.13,7.9,6.07
-disney,4000,DISN,400,8.9,2.3
-google,2500,GOOG,300,6.9,4.5
+name,initialInvestment,ticker,currentMarketValue,expectedGrowth,earningsPerShare
+Microsoft Corporation,1000,MSFT,307.26,6.39,9.24
