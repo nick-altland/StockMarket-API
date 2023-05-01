@@ -20,10 +20,10 @@
       - Debt Ratios
       - Revenue
 - Add Python code
-    - Webscrapper. How will it integrate with the C++
-    - Graph making. Will matplotlib work or are there better options
+    - Webscrapper. How will it integrate with the C++ (Scraped)
+    - Graph making. Will matplotlib work or are there better options (done)
 - Add testing suite
-- Add ability to compare more then just two stocks
+- Add ability to compare more than just two stocks
 - Add GUI using QT programs
 
 [Raw Data](https://www.macrotrends.net/stocks/stock-screener)
@@ -31,29 +31,11 @@
 [YaHoo Finance](https://finance.yahoo.com)
 [Google Finance](https://www.google.com/finance/?hl=en)
 
-### Python Web Scrapper:
+### NEXT STEP
 
-- Basics: [Tutorial from Oxylabs](https://oxylabs.io/blog/python-web-scraping)
-
-NOTES:
-- Web Scrapping: Automated process of gathering public data
-- Python libraries to choose from:
-  - Requests: Simple but limited
-  - Beautiful Soup: Used alongside Requests. Uses parser to extract data
-    - Good for beginners
-  - Ixml:
-    - Fast powerful easy-to-use HTML and XML parsing
-    - Needs "Requests" library to pull HTML strings
-    - Impacted by poor HTML
-  - Selenium
-    - Can pull from websites that uses JavaScript
-    - Used for execution of test cases or test scripts on web applications
-    - Needs: Web Browser, the driver for the browser, and the pip packages
-  
-- This tutorial uses Beautiful Soup, Pandas, and Selenium
-
-What I can do is pull all the stocks from the website (over 6000) and add them to a csv file. 
-I can then take that file and use it as the search parameters for the webscrapper,
-going directly to that page (adding the name to the end of the HTTPS link)
-
-- [Additional Tutorial from Real Python](https://realpython.com/python-web-scraping-practical-introduction/)
+- Need to change C++ stock so that it accepts many more variables (Buy? Recommended? Other factors?)
+- Need way to verify the entered ticker is good. Search a database that I fill?
+  - Need best search for this, since the ticker names are most likely alphabetized
+- If more than 1 stock is chosen, compare them. This will be harder since I have up to 3
+- Ask Professor Dion on how to pass values from C++ to Python!!!!
+- 

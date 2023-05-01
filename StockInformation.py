@@ -6,12 +6,10 @@ import matplotlib.lines as mlines
 import matplotlib as mpl
 import yfinance as yf
 
-
 # Get from C program:
 # Ticker Name
 # Length of interest (1d, 5d, 1mo, 6mo, 1y, 5y) (Drop down menu?)
-# Allow for multiple ticker names to be passed through. Run program as a loop
-# for every ticker passed through. Max 3?
+# Allow for multiple ticker names to be passed through, up to three
 
 # Print out all the information
 # for key,value in stockInfo.items():
@@ -44,11 +42,13 @@ def createStocks(outfileContents, tickerNames, intervalLength, periodLength):
 
 # Use matplotlib to create a graph and save it
 def createGraph(stockValues, stockNames):
-
+    # Set the colors to default and create a constricted graph layout, so the legend will be outside the graph
     mpl.style.use('default')
     fig, axs = plt.subplot_mosaic([['left']], layout='constrained')
 
+    # For each possible sizes (1-3), make sure the graph prints things out correctly with matching labels
     if len(stockNames) == 1:
+        # Adds labels for each stock and positions the legend to the upper right
         axs['left'].plot(stockValues, label=stockNames[0])
         fig.legend(loc='outside upper right')
 
@@ -60,10 +60,12 @@ def createGraph(stockValues, stockNames):
         axs['left'].plot(stockValues, label=[stockNames[0], stockNames[1], stockNames[2]])
         fig.legend(loc='outside upper right')
 
+    # Adds a label for y axis, x-axis are dates so no need for label
     plt.ylabel('Price (USD)')
+    # Rotate the values on the x-axis by 45 degrees so that  they do not run into each other if too close together
     plt.xticks(rotation=45)
-    plt.show()
-    # plt.savefig('images/stockData.png')
+    # Save the graph (or show it: plt.show()
+    plt.savefig('images/stockData.png')
 
 
 # Write out the stock information to a CSV file. This will allow it to be used for calculations in the C++ file
@@ -122,7 +124,7 @@ def main():
     # Assign interval length, based on time period
     intervalLength = getIntervalLength(periodLength)
 
-    # Call create stocks, which will loop through eacb of the ticker names call different functions on them
+    # Call create stocks, which will loop through each of the ticker names call different functions on them
     outfileContents = createStocks(outfileContents, tickerNames, intervalLength, periodLength)
 
     # Save all the data to the outfile
