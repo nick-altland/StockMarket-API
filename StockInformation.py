@@ -2,6 +2,8 @@ import csv
 from datetime import date, timedelta
 import pandas as pd
 from matplotlib import pyplot as plt
+import matplotlib.lines as mlines
+import matplotlib as mpl
 import yfinance as yf
 
 
@@ -18,32 +20,55 @@ import yfinance as yf
 
 
 def createStocks(outfileContents, tickerNames, intervalLength, periodLength):
-    # Create a list that will be used in graph creation
-    graphData = []
+    stockNames = []
 
     # For each name in the tickerNames list
     for i in tickerNames:
-        # assigns stock to be a ticker symbol from the tickerNames list and download the data for it
+        # assigns stock to be a ticker symbol from the tickerNames list and download the recent history for it
         stock = yf.Ticker(i)
 
-        # Get the stock values for the required stock, this will be used for the graph
-        stockValues = pd.DataFrame(yf.download(tickerNames, period=periodLength, interval=intervalLength)['Adj Close'])
-        graphData.append(stockValues)
-
+        # Add the required information to the outfile list
         outfileContents = getOutfileData(stock, outfileContents)
 
-    createGraph(graphData)
+    # Get the stock values for all the tickers, this will be used for the graph
+    stockValues = pd.DataFrame(yf.download(tickerNames, period=periodLength, interval=intervalLength)['Adj Close'])
+
+    for i in stockValues:
+        stockNames.append(i)
+
+    # Call create graph to create and save a png image of the stocks
+    createGraph(stockValues, stockNames)
 
     return outfileContents
 
 
-def createGraph(graphData):
-    plt.plot(graphData[0])
+# Use matplotlib to create a graph and save it
+def createGraph(stockValues, stockNames):
+
+    mpl.style.use('default')
+    fig, axs = plt.subplot_mosaic([['left']], layout='constrained')
+
+    if len(stockNames) == 1:
+        axs['left'].plot(stockValues, label=stockNames[0])
+        fig.legend(loc='outside upper right')
+
+    elif len(stockNames) == 2:
+        axs['left'].plot(stockValues, label=[stockNames[0], stockNames[1]])
+        fig.legend(loc='outside upper right')
+
+    elif len(stockNames) == 3:
+        axs['left'].plot(stockValues, label=[stockNames[0], stockNames[1], stockNames[2]])
+        fig.legend(loc='outside upper right')
+
+    plt.ylabel('Price (USD)')
+    plt.xticks(rotation=45)
     plt.show()
+    # plt.savefig('images/stockData.png')
 
 
 # Write out the stock information to a CSV file. This will allow it to be used for calculations in the C++ file
-def csvWriter(header, outfileContents):
+def csvWriter(outfileContents):
+    header = ['name', 'initialInvestment', 'ticker', 'currentMarketValue', 'expectedGrowth', 'earningsPerShare']
     # Save data to a CSV file, Use this to create graphs and for Stock comparisons
     with open('infoOnStocks.csv', 'w', encoding='UTF8', newline='') as outfile:
         # Create a CSV writer
@@ -75,6 +100,7 @@ def getOutfileData(stock, outfileContents):
     return outfileContents
 
 
+# Makes sure we are not pulling too much information for the graphs by setting a small enough interval
 def getIntervalLength(periodLength):
     if periodLength == "5d" or periodLength == "1d":
         intervalLength = "1h"
@@ -85,20 +111,22 @@ def getIntervalLength(periodLength):
 
 
 def main():
-    header = ['name', 'initialInvestment', 'ticker', 'currentMarketValue', 'expectedGrowth', 'earningsPerShare']
+    # Create a list, to be filled by createStocks. Used to print out data to CSV file
     outfileContents = []
 
-    # Period length
-    periodLength = "1y"
+    # ticker names that are assigned through C++ program ,"MSFT"
+    tickerNames = ["SONY","AAPL","MSFT"]
 
+    # Period length that is passed from C++ program
+    periodLength = "1y"
+    # Assign interval length, based on time period
     intervalLength = getIntervalLength(periodLength)
 
-    # ticker names that are assigned through C++ program
-    tickerNames = ["MSFT"]  # , "AAPL", "SONY"
-
+    # Call create stocks, which will loop through eacb of the ticker names call different functions on them
     outfileContents = createStocks(outfileContents, tickerNames, intervalLength, periodLength)
 
-    csvWriter(header, outfileContents)
+    # Save all the data to the outfile
+    csvWriter(outfileContents)
 
 
 main()
