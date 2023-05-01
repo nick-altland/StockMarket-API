@@ -1,45 +1,65 @@
 import csv
-import datetime
-from dateutil.relativedelta import relativedelta
+from datetime import date, timedelta
 import pandas as pd
-import matplotlib.pyplot as plt
-from datetime import date
+from matplotlib import pyplot as plt
 import yfinance as yf
+
 
 # Get from C program:
 # Ticker Name
 # Length of interest (1d, 5d, 1mo, 6mo, 1y, 5y) (Drop down menu?)
 # Allow for multiple ticker names to be passed through. Run program as a loop
-#   for every ticker passed through. Max 3?
+# for every ticker passed through. Max 3?
 
-header = ['name', 'initialInvestment', 'ticker', 'currentMarketValue', 'expectedGrowth', 'earningsPerShare']
-outfileContents = []
+# Print out all the information
+# for key,value in stockInfo.items():
+#     print(key, ":", value)
+# print(stock.info['sector'])
 
-# ticker names that are assigned through C++ program
-tickerNames = ["MSFT"]
 
-# Period length
-periodLength = "5d"
+def createStocks(outfileContents, tickerNames, intervalLength, periodLength):
+    # Create a list that will be used in graph creation
+    graphData = []
 
-# Download the last five years of data for the ticker names and save it to a dictionary
-todayDate = date.today()
-oneYearAgoDate = date.today() - relativedelta(years=5)
-data = yf.download(tickerNames, start=oneYearAgoDate, end=todayDate, group_by="ticker")
+    # For each name in the tickerNames list
+    for i in tickerNames:
+        # assigns stock to be a ticker symbol from the tickerNames list and download the data for it
+        stock = yf.Ticker(i)
 
-# For each name in the tickerNames list
-for i in tickerNames:
-    # assigns stock to be a ticker symbol from the tickerNames list
-    stock = yf.Ticker(i)
+        # Get the stock values for the required stock, this will be used for the graph
+        stockValues = pd.DataFrame(yf.download(tickerNames, period=periodLength, interval=intervalLength)['Adj Close'])
+        graphData.append(stockValues)
 
-    # Gets stock info
-    stockInfo = stock.info
+        outfileContents = getOutfileData(stock, outfileContents)
 
-    # Print out all the information
-    # for key,value in stockInfo.items():
-    #     print(key, ":", value)
+    createGraph(graphData)
 
-    # Pull relevant values from the stock in question and assign them to variables
-    # Then add the variables to a list, which is added to the outfile contents
+    return outfileContents
+
+
+def createGraph(graphData):
+    plt.plot(graphData[0])
+    plt.show()
+
+
+# Write out the stock information to a CSV file. This will allow it to be used for calculations in the C++ file
+def csvWriter(header, outfileContents):
+    # Save data to a CSV file, Use this to create graphs and for Stock comparisons
+    with open('infoOnStocks.csv', 'w', encoding='UTF8', newline='') as outfile:
+        # Create a CSV writer
+        writer = csv.writer(outfile)
+
+        # write the header
+        writer.writerow(header)
+
+        # write multiple rows
+        writer.writerows(outfileContents)
+
+
+# Pull relevant values from the stock in question and assign them to variables
+# Then add the variables to a list, which is added to the outfile contents
+# Return outfileContents
+def getOutfileData(stock, outfileContents):
     companyName = stock.info['shortName']
     initialInvestment = '1000'
     ticker = stock.info['symbol']
@@ -52,20 +72,33 @@ for i in tickerNames:
     outfileRow = [companyName, initialInvestment, ticker, currentMarketValue, expectedGrowth, earningsPerShare]
     outfileContents.append(outfileRow)
 
-    # print(stock.info['sector'])
-    # print(stock.info['open'])
-    # print(stock.info['dayLow'])
-    # print(stock.info['dayHigh'])
+    return outfileContents
 
 
-# Save data to a CSV file. Use this to create graphs and for Stock comparisons
-with open('infoOnStocks.csv', 'w', encoding='UTF8', newline='') as outfile:
-    # Create a CSV writer
-    writer = csv.writer(outfile)
+def getIntervalLength(periodLength):
+    if periodLength == "5d" or periodLength == "1d":
+        intervalLength = "1h"
+    else:
+        intervalLength = "1d"
 
-    # write the header
-    writer.writerow(header)
+    return intervalLength
 
-    # write multiple rows
-    writer.writerows(outfileContents)
 
+def main():
+    header = ['name', 'initialInvestment', 'ticker', 'currentMarketValue', 'expectedGrowth', 'earningsPerShare']
+    outfileContents = []
+
+    # Period length
+    periodLength = "1y"
+
+    intervalLength = getIntervalLength(periodLength)
+
+    # ticker names that are assigned through C++ program
+    tickerNames = ["MSFT"]  # , "AAPL", "SONY"
+
+    outfileContents = createStocks(outfileContents, tickerNames, intervalLength, periodLength)
+
+    csvWriter(header, outfileContents)
+
+
+main()
