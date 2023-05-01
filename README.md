@@ -31,6 +31,10 @@
 [YaHoo Finance](https://finance.yahoo.com)
 [Google Finance](https://www.google.com/finance/?hl=en)
 
+SOURCES:
+[MatPlotLib: Tutorial on Creating a Legend](https://matplotlib.org/stable/tutorials/intermediate/legend_guide.html)
+[Project yfinance](https://pypi.org/project/yfinance/)
+
 ### NEXT STEP
 
 - Need to change C++ stock so that it accepts many more variables (Buy? Recommended? Other factors?)

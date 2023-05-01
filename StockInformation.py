@@ -6,11 +6,6 @@ import matplotlib.lines as mlines
 import matplotlib as mpl
 import yfinance as yf
 
-# Get from C program:
-# Ticker Name
-# Length of interest (1d, 5d, 1mo, 6mo, 1y, 5y) (Drop down menu?)
-# Allow for multiple ticker names to be passed through, up to three
-
 # Print out all the information
 # for key,value in stockInfo.items():
 #     print(key, ":", value)
@@ -29,19 +24,20 @@ def createStocks(outfileContents, tickerNames, intervalLength, periodLength):
         outfileContents = getOutfileData(stock, outfileContents)
 
     # Get the stock values for all the tickers, this will be used for the graph
+    # This is saved in a panda dataframe, which will allow us to access it through matplotlib
     stockValues = pd.DataFrame(yf.download(tickerNames, period=periodLength, interval=intervalLength)['Adj Close'])
 
     for i in stockValues:
         stockNames.append(i)
 
     # Call create graph to create and save a png image of the stocks
-    createGraph(stockValues, stockNames)
+    createGraph(stockValues, stockNames, tickerNames)
 
     return outfileContents
 
 
 # Use matplotlib to create a graph and save it
-def createGraph(stockValues, stockNames):
+def createGraph(stockValues, stockNames, tickerNames):
     # Set the colors to default and create a constricted graph layout, so the legend will be outside the graph
     mpl.style.use('default')
     fig, axs = plt.subplot_mosaic([['left']], layout='constrained')
@@ -49,7 +45,7 @@ def createGraph(stockValues, stockNames):
     # For each possible sizes (1-3), make sure the graph prints things out correctly with matching labels
     if len(stockNames) == 1:
         # Adds labels for each stock and positions the legend to the upper right
-        axs['left'].plot(stockValues, label=stockNames[0])
+        axs['left'].plot(stockValues, label=tickerNames[0])
         fig.legend(loc='outside upper right')
 
     elif len(stockNames) == 2:
@@ -64,8 +60,9 @@ def createGraph(stockValues, stockNames):
     plt.ylabel('Price (USD)')
     # Rotate the values on the x-axis by 45 degrees so that  they do not run into each other if too close together
     plt.xticks(rotation=45)
-    # Save the graph (or show it: plt.show()
-    plt.savefig('images/stockData.png')
+    # Save the graph (or show it: )
+    plt.show()
+    #plt.savefig('images/stockData.png')
 
 
 # Write out the stock information to a CSV file. This will allow it to be used for calculations in the C++ file
@@ -102,9 +99,10 @@ def getOutfileData(stock, outfileContents):
     return outfileContents
 
 
-# Makes sure we are not pulling too much information for the graphs by setting a small enough interval
+# Makes sure we are not pulling too much information for the graphs to clearly display
+# by setting a small enough interval
 def getIntervalLength(periodLength):
-    if periodLength == "5d" or periodLength == "1d":
+    if periodLength == "5d":
         intervalLength = "1h"
     else:
         intervalLength = "1d"
@@ -116,11 +114,16 @@ def main():
     # Create a list, to be filled by createStocks. Used to print out data to CSV file
     outfileContents = []
 
-    # ticker names that are assigned through C++ program ,"MSFT"
-    tickerNames = ["SONY","AAPL","MSFT"]
+    # Get from C program:
+    # Ticker Name
+    # Length of interest (5d, 1mo, 6mo, 1y, 5y) (Drop down menu?)
+    # Allow for multiple ticker names to be passed through, up to three
+
+    # ticker names that are assigned through C++ program "SONY","AAPL","MSFT"
+    tickerNames = ["SONY"]
 
     # Period length that is passed from C++ program
-    periodLength = "1y"
+    periodLength = "5d"
     # Assign interval length, based on time period
     intervalLength = getIntervalLength(periodLength)
 
