@@ -11,6 +11,9 @@ import yfinance as yf
 #     print(key, ":", value)
 # print(stock.info['sector'])
 
+# import os. argv
+# index 1 in commandline
+# image manip: Syntax to pass through
 
 def createStocks(outfileContents, tickerNames, intervalLength, periodLength):
     stockNames = []
@@ -19,6 +22,12 @@ def createStocks(outfileContents, tickerNames, intervalLength, periodLength):
     for i in tickerNames:
         # assigns stock to be a ticker symbol from the tickerNames list and download the recent history for it
         stock = yf.Ticker(i)
+
+        # stockInfo = stock.info
+        #
+        # for key,value in stockInfo.items():
+        #     print(key, ":", value)
+        # print(stock.info['sector'])
 
         # Add the required information to the outfile list
         outfileContents = getOutfileData(stock, outfileContents)
@@ -117,13 +126,15 @@ def main():
     # Get from C program:
     # Ticker Name
     # Length of interest (5d, 1mo, 6mo, 1y, 5y) (Drop down menu?)
+    # Investment amount
     # Allow for multiple ticker names to be passed through, up to three
+    # Add try/except loop for ticker validation
 
     # ticker names that are assigned through C++ program "SONY","AAPL","MSFT"
-    tickerNames = ["SONY"]
+    tickerNames = ["SONY","AAPL","MSFT"]
 
     # Period length that is passed from C++ program
-    periodLength = "5d"
+    periodLength = "1y"
     # Assign interval length, based on time period
     intervalLength = getIntervalLength(periodLength)
 

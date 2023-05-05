@@ -49,7 +49,7 @@ public:
      * Effects: Reads through the list of known stocks, searching for the one given. If found, creates a new stock object from it
      *          and returns it. If not, it creates a default stock and returns that
      */
-    Stock readStockFile(std::string &fileName, std::vector<Stock> &stocksFromFile, std::string &companyName);
+    std::vector<Stock> readStockFile(std::string &fileName, std::vector<Stock> &stocksFromFile);
 
     /*
      * writeStockFile

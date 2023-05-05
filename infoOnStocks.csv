@@ -1,2 +1,4 @@
 name,initialInvestment,ticker,currentMarketValue,expectedGrowth,earningsPerShare
-Sony Group Corporation,1000,SONY,92.19,7.92,5.55
+Sony Group Corporation,1000,SONY,90.56,7.96,5.55
+Apple Inc.,1000,AAPL,169.7501,4.78,5.88
+Microsoft Corporation,1000,MSFT,308.35,6.81,9.23

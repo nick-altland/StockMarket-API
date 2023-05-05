@@ -30,7 +30,7 @@ MarketAPI::MarketAPI(int lineNumber, string fileHeader) {
     this->fileHeader = fileHeader;
 }
 
-Stock MarketAPI:: readStockFile(string &fileName, vector<Stock> &stocksFromFile, string &inputCompanyName){
+vector<Stock> MarketAPI:: readStockFile(string &fileName, vector<Stock> &stocksFromFile){
 
     cout << endl;
 
@@ -45,7 +45,6 @@ Stock MarketAPI:: readStockFile(string &fileName, vector<Stock> &stocksFromFile,
     float expectedGrowth;
     float earningsPerShare;
     char comma;
-    bool found;
 
     if (stockFile){
         getline(stockFile, header);
@@ -79,26 +78,14 @@ Stock MarketAPI:: readStockFile(string &fileName, vector<Stock> &stocksFromFile,
         Stock newStock(companyName, initialInvestment, tickerName, currentMarketValue, expectedGrowth, earningsPerShare);
 
         stocksFromFile.push_back(newStock);
-
-        if(companyName == inputCompanyName){
-            this->lineNumber = count;
-            // cout << "Stock company name found on line " << lineNumber + 1 << endl;
-            found = true;
-        }
         ++count;
     }
 
     stockFile.close();
 
-    if(found){
-        return stocksFromFile[lineNumber];
-    }
-    else{
-        this->lineNumber = count;
+    stocksFromFile.pop_back();
 
-        Stock emptyStock;
-        return emptyStock;
-    }
+    return stocksFromFile;
 }
 
 void MarketAPI::writeStockFile(string &fileName, vector<Stock> &stocks) {
@@ -165,7 +152,7 @@ string MarketAPI::validateTickerName(){
     while(!userInputValid){
         if(maxNumberOfLoops == 5){
             cout << endl << "Error. Too many attempted entries. Using placeholder value" << endl;
-            return "ABC";
+            return "AAPL";
         }
         getline(cin, userInput);
         cin.clear();
@@ -299,7 +286,7 @@ int MarketAPI::validatePositiveInteger(){
     while(!userInputValid){
         if(maxNumberOfLoops == 5){
             cout << endl << "Error. Too many attempted entries. Using placeholder value" << endl;
-            return 5;
+            return 1;
         }
 
         userInputValid = true;
