@@ -181,12 +181,6 @@ bool testMarketAPI(){
         passed = false;
     }
 
-    Stock stockAPI;
-    vector<Stock> testStockAPI;
-    string stockFileName = "../testStocks.csv";
-    string companyName = "company";
-
-
     return passed;
 }
 

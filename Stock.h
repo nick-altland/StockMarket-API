@@ -65,7 +65,7 @@ public:
      * Modifies: nothing
      * Effects: Prints out the values of a stock
      */
-    void printStock(Stock &userStock);
+    static void printStock(Stock &userStock);
 
     /** calculateIntrinsicValue
      * Requires: a stock object

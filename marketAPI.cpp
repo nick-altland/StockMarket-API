@@ -140,7 +140,7 @@ void MarketAPI::compareInvestments(vector<Stock> &stocks) {
 
         stock.setYearlyReturns((stock.getEarningsPerShare()*stock.getInitialInvestment())/stock.getCurrentMarketValue());
 
-        stock.printStock(stock);
+        Stock::printStock(stock);
 
         cout << "The stock of ";
         if(stock.getIntrinsicDifference() >=0){
