@@ -151,8 +151,6 @@ def main():
     elif numberOfTickers == 2:
         tickerNames.append(sys.argv[4])
 
-    print(tickerNames)
-
     # Assign interval length, based on time period
     intervalLength = getIntervalLength(periodLength)
 

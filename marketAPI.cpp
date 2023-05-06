@@ -150,10 +150,6 @@ void MarketAPI::compareInvestments(vector<Stock> &stocks) {
         comparisonStocks.push_back(stock);
     }
 
-    for(Stock stock : comparisonStocks){
-        cout << stock.getTickerName() << ", " << stock.getYearlyReturns() << endl;
-    }
-
     if(comparisonStocks.size() == 2){
         if(comparisonStocks[0].getYearlyReturns() > comparisonStocks[1].getYearlyReturns()){
             cout << "Your stock with " << comparisonStocks[0].getCompanyName();

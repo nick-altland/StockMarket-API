@@ -61,9 +61,22 @@ int main() {
 
         // Create a vector to hold the names of the tickers, then iterate through and fill it
         vector<string> namesOfTickers;
+
         for (int i = 0; i < numberOfTickers; ++i) {
             // Ask user for the company name for a Stock
-            cout << "What is the name of the company you would like to get a stock from today?: ";
+            if(i == 0 && numberOfTickers == 1){
+                cout << "What is the ticker name of the company you would like to get a stock from today?: ";
+            }
+            else if(i == 0){
+                cout << "What is the ticker name of the first company?: ";
+            }
+            if(i == 1){
+                cout << "What is the ticker name of the second company?: ";
+            }
+            if(i == 2){
+                cout << "What is the ticker name of the third company?:";
+            }
+
             tickerNames = MarketAPI::validateTickerName();
             namesOfTickers.push_back(tickerNames);
         }
