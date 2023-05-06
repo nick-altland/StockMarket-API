@@ -29,6 +29,7 @@ int main() {
     string tickerNames;                         // Company ticker name
     string lengthOfTime;                           // The interval we are pulling stocks from
     string command;                             // Command line string
+    string userDesktop = R"((C:\Users\nlalt\Desktop\stockData.png))";
 
     // Great user and explain what the program does
     cout << "Welcome to Nick Altland's Stock Market API." << endl;
@@ -101,7 +102,7 @@ int main() {
         MarketAPI::compareInvestments(stocksFromFile);
 
         // Print the graph
-        system(R"(C:\Users\nlalt\Desktop\stockData.png)");
+        system(userDesktop.c_str());
 
         // Ask them if they create a new stock and a new bond. If yes, loop. If not, break loop
         cout << endl << "Do you wish to look up another set of investments? (y/n): ";
