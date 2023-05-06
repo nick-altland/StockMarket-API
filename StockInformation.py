@@ -7,6 +7,7 @@ import matplotlib as mpl
 import sys
 import yfinance as yf
 
+
 # Print out all the information
 # for key,value in stockInfo.items():
 #     print(key, ":", value)
@@ -71,7 +72,7 @@ def createGraph(stockValues, stockNames, tickerNames):
     # Rotate the values on the x-axis by 45 degrees so that  they do not run into each other if too close together
     plt.xticks(rotation=45)
     # Save the graph (or show it: )
-    #plt.show()
+    # plt.show()
     plt.savefig('/Users/nlalt/Desktop/stockData.png')
 
 
@@ -128,37 +129,37 @@ def main():
     # Get from C program:
     # Ticker Name
     # Length of interest (5d, 1mo, 6mo, 1y, 5y) (Drop down menu?)
-    # Investment amount
-    # Allow for multiple ticker names to be passed through, up to three
     # Add try/except loop for ticker validation
 
     # ticker names that are assigned through C++ program "SONY","AAPL","MSFT"
     tickerNames = []
 
-    # Number of tickers
-    numberOfTickers = int(sys.argv[1])
+    try:
+        # Number of tickers
+        numberOfTickers = int(sys.argv[1])
 
-    print(numberOfTickers)
+        # Period length that is passed from C++ program
+        periodLength = sys.argv[2]
 
-    # Period length that is passed from C++ program
-    periodLength = sys.argv[2]
+        tickerNames.append(sys.argv[3])
 
-    tickerNames.append(sys.argv[3])
+        if numberOfTickers == 3:
+            tickerNames.append(sys.argv[4])
+            tickerNames.append(sys.argv[5])
+        elif numberOfTickers == 2:
+            tickerNames.append(sys.argv[4])
 
-    if numberOfTickers == 3:
-        tickerNames.append(sys.argv[4])
-        tickerNames.append(sys.argv[5])
-    elif numberOfTickers == 2:
-        tickerNames.append(sys.argv[4])
+        # Assign interval length, based on time period
+        intervalLength = getIntervalLength(periodLength)
 
-    # Assign interval length, based on time period
-    intervalLength = getIntervalLength(periodLength)
+        # Call create stocks, which will loop through each of the ticker names call different functions on them
+        outfileContents = createStocks(outfileContents, tickerNames, intervalLength, periodLength)
 
-    # Call create stocks, which will loop through each of the ticker names call different functions on them
-    outfileContents = createStocks(outfileContents, tickerNames, intervalLength, periodLength)
-
-    # Save all the data to the outfile
-    csvWriter(outfileContents)
+        # Save all the data to the outfile
+        csvWriter(outfileContents)
+    except Exception as e:
+        print(e)
+        print("There was an error with one of your entered tickers. Using default values")
 
 
 main()

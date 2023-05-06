@@ -46,8 +46,7 @@ public:
      * readStockFile
      * Requires: a file name, vector of stocks company name
      * Modifies: Nothing
-     * Effects: Reads through the list of known stocks, searching for the one given. If found, creates a new stock object from it
-     *          and returns it. If not, it creates a default stock and returns that
+     * Effects: Reads through a csv file created through a python scrip and adds stocks to the vector passed through
      */
     std::vector<Stock> readStockFile(std::string &fileName, std::vector<Stock> &stocksFromFile);
 
@@ -55,27 +54,27 @@ public:
      * writeStockFile
      * Requires: a file name and a vector of stocks
      * Modifies: the file that is passed through
-     * Effects: Takes the values of the vector and writes it to the file being passed through
+     * Effects: Takes the values of the vector and writes it to the file
      */
     void writeStockFile(std::string &fileName, std::vector<Stock> &stocks);
 
-    // Getter for the number of lines in the file
+    // Getter for the number of lines in the file, used to locate a specific stock if needed
     int getLineNumber() const;
 
     /*
      * compareInvestments
      * Requires: a vector of stocks
      * Modifies: nothing
-     * Effects: When given a vector of stocks, runs varius tests on them, printing to console the results
+     * Effects: When given a vector of stocks, runs varius tests on them, printing the results to console
      */
     static void compareInvestments(std::vector<Stock> &stock);
 
 
     /*
      * compareInvestments
-     * Requires: a vector of stocks
+     * Requires: nothing
      * Modifies: nothing
-     * Effects: When given a vector of stocks, runs varius tests on them, printing to console the results
+     * Effects: validate the interval length for how long ago we want to pull the stocks from
      */
     static std::string validateLengthOfTime();
 
@@ -95,7 +94,7 @@ public:
      * Requires: Nothing
      * Modifies: tickerName
      * Effects: Asks user to enter a ticker name, then validates the input by checking
-     *          the length then returns it to main
+     *          the length then returns it
      */
     std::string static validateTickerName();
 

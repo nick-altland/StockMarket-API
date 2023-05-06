@@ -11,8 +11,6 @@
 #include "Stock.h"
 
 #include <algorithm>
-#include <cstdlib>
-#include <fstream>
 #include <iostream>
 #include <vector>
 
@@ -99,11 +97,8 @@ int main() {
         // For each stock on file, add it to a vector of stocks, then pass that vector back to main
         stocksFromFile = stockAPI.readStockFile(stockFile, stocksFromFile);
 
-        // Print out a statement to inform the user about where we are in the process
-        cout << "Here are the values of the stocks you requested: " << endl;
-
         // Compare the three stocks
-        stockAPI.compareInvestments(stocksFromFile);
+        MarketAPI::compareInvestments(stocksFromFile);
 
         // Print the graph
         system(R"(C:\Users\nlalt\Desktop\stockData.png)");

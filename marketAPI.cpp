@@ -121,11 +121,20 @@ int MarketAPI::getLineNumber() const {
 void MarketAPI::compareInvestments(vector<Stock> &stocks) {
 
     vector<Stock> comparisonStocks;
+    float investment = -1.0;
 
     for(Stock stock : stocks){
 
-        cout << "How much are you planning to invest in " << stock.getTickerName() << "?: ";
-        stock.setInitialInvestment(MarketAPI::validateFloatValue());
+        while(investment <= 0.0){
+            cout << "How much are you planning to invest in " << stock.getTickerName() << "?: ";
+            investment = MarketAPI::validateFloatValue();
+            if(investment > 0.0){
+                stock.setInitialInvestment(investment);
+            }
+            else{
+                cout << "Please enter a positive investment amount" << endl;
+            }
+        }
 
         stock.calculateIntrinsicValue(stock);
 
