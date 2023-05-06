@@ -27,8 +27,10 @@ const string python = "python";
 
 int main() {
     char userInputContinue = 'y';           // Used for main while loop, which exits when it is 'n'
-    string stockFile = "../infoOnStocks.csv";   // Stock name
-    string tickerNames;                         // Company name
+    string stockFile = "../infoOnStocks.csv";   // Stock file name where stock info is stored
+    string tickerNames;                         // Company ticker name
+    string lengthOfTime;                           // The interval we are pulling stocks from
+    string command;                             // Command line string
 
     // Great user and explain what the program does
     cout << "Welcome to Nick Altland's Stock Market API." << endl;
@@ -66,35 +68,35 @@ int main() {
             namesOfTickers.push_back(tickerNames);
         }
 
-        // Command line string to call python script to scrape the web for information
-        string command = python + " ../StockInformation.py " + to_string(numberOfTickers) + " 1y ";
+        // Set the length of time we will be calling
+        lengthOfTime = MarketAPI::validateLengthOfTime();
 
+        // Command line string to call python script to scrape the web for information: number of tickers and interval
+        command = python + " ../StockInformation.py " + to_string(numberOfTickers);
+        command.append(" " + lengthOfTime + " ");
+
+        // For loop to add the ticker names to the end of the command line statement
         for(string name: namesOfTickers){
             command.append(name + " ");
         }
 
-        cout << command << endl;
-
+        // Call the command line statement, running the python script to calculate the stock prices
         system(command.c_str());
 
-        // For each stock on file add it to a vector of stocks, then pass that vector back to main
+        // For each stock on file, add it to a vector of stocks, then pass that vector back to main
         stocksFromFile = stockAPI.readStockFile(stockFile, stocksFromFile);
 
-        // Set the initial investment for each ticker
-        for(Stock tick : stocksFromFile){
-            cout << "How much are you planning to invest in " << tick.getTickerName() << "?: ";
-            tick.setInitialInvestment(MarketAPI::validateFloatValue());
-        }
-
+        // Print out a statement to inform the user about where we are in the process
         cout << "Here are the values of the stocks you requested: " << endl;
 
         // Compare the three stocks
         stockAPI.compareInvestments(stocksFromFile);
 
+        // Print the graph
         system(R"(C:\Users\nlalt\Desktop\stockData.png)");
 
         // Ask them if they create a new stock and a new bond. If yes, loop. If not, break loop
-        cout << endl << "Do you wish to look up another Investment? (y/n): ";
+        cout << endl << "Do you wish to look up another set of investments? (y/n): ";
         userInputContinue = MarketAPI::validateGoAgain();
     }
 

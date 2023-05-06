@@ -59,17 +59,33 @@ public:
      */
     void writeStockFile(std::string &fileName, std::vector<Stock> &stocks);
 
-    // Getter
+    // Getter for the number of lines in the file
     int getLineNumber() const;
 
-    //
-    void compareInvestments(std::vector<Stock> &stock);
+    /*
+     * compareInvestments
+     * Requires: a vector of stocks
+     * Modifies: nothing
+     * Effects: When given a vector of stocks, runs varius tests on them, printing to console the results
+     */
+    static void compareInvestments(std::vector<Stock> &stock);
+
+
+    /*
+     * compareInvestments
+     * Requires: a vector of stocks
+     * Modifies: nothing
+     * Effects: When given a vector of stocks, runs varius tests on them, printing to console the results
+     */
+    static std::string validateLengthOfTime();
+
 
     /*
      * validateStockName
      * Requires: nothing
-     * Modifies: stockName
-     * Effects: Asks user to enter a stock name, then validates the input by checking the length. Then, returns the stock name to main
+     * Modifies: nothing
+     * Effects: Asks user to enter a stock name, then validates the input by checking the length.
+     *          Then, returns the stock name to main
      */
     std::string static validateString();
 
@@ -78,7 +94,8 @@ public:
      * validateTickerName
      * Requires: Nothing
      * Modifies: tickerName
-     * Effects: Asks user to enter a ticker name, then validates the input by checking the length then returns it to main
+     * Effects: Asks user to enter a ticker name, then validates the input by checking
+     *          the length then returns it to main
      */
     std::string static validateTickerName();
 

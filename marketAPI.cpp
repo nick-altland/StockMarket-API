@@ -124,6 +124,9 @@ void MarketAPI::compareInvestments(vector<Stock> &stocks) {
 
     for(Stock stock : stocks){
 
+        cout << "How much are you planning to invest in " << stock.getTickerName() << "?: ";
+        stock.setInitialInvestment(MarketAPI::validateFloatValue());
+
         stock.calculateIntrinsicValue(stock);
 
         stock.setYearlyReturns((stock.getEarningsPerShare()*stock.getInitialInvestment())/stock.getCurrentMarketValue());
@@ -147,12 +150,16 @@ void MarketAPI::compareInvestments(vector<Stock> &stocks) {
         comparisonStocks.push_back(stock);
     }
 
+    for(Stock stock : comparisonStocks){
+        cout << stock.getTickerName() << ", " << stock.getYearlyReturns() << endl;
+    }
+
     if(comparisonStocks.size() == 2){
-        if(comparisonStocks[0] < comparisonStocks[1]){
+        if(comparisonStocks[0].getYearlyReturns() > comparisonStocks[1].getYearlyReturns()){
             cout << "Your stock with " << comparisonStocks[0].getCompanyName();
             cout << " will earn you more yearly than your stock with " << comparisonStocks[1].getCompanyName() << endl;
         }
-        else if(comparisonStocks[1] < comparisonStocks[0]){
+        else if(comparisonStocks[1].getYearlyReturns() > comparisonStocks[0].getYearlyReturns()){
             cout << "Your stock with " << comparisonStocks[1].getCompanyName();
             cout << " will earn you more yearly than your stock with " << comparisonStocks[0].getCompanyName() << endl;
         }
@@ -163,16 +170,48 @@ void MarketAPI::compareInvestments(vector<Stock> &stocks) {
     else if(comparisonStocks.size() == 3){
         for (int i = 0; i < comparisonStocks.size(); i++) {
             for (int j = i; j < (comparisonStocks.size()); j++) {
-                if (comparisonStocks[i] > comparisonStocks[j]) {
+                if (comparisonStocks[i].getYearlyReturns() > comparisonStocks[j].getYearlyReturns()) {
                     swap(comparisonStocks[i], comparisonStocks[j]);
                 }
             }
         }
 
-        cout << "You will earn the most this year on " << comparisonStocks[0].getCompanyName() << ", second most with ";
-        cout << comparisonStocks[1].getCompanyName() << ", and least with " << comparisonStocks[2].getCompanyName();
+        cout << "You will earn the most this year on " << comparisonStocks[2].getCompanyName() << ", second most with ";
+        cout << comparisonStocks[1].getCompanyName() << ", and least with " << comparisonStocks[0].getCompanyName();
 
     }
+}
+
+string MarketAPI::validateLengthOfTime(){
+    string lengthOfTime;
+    int userEntry = 0;
+
+    while(userEntry == 0){
+        cout << endl <<"(1) Five days" << endl << "(2) One month" << endl << "(3) Six months"  << endl;
+        cout << "(4) One year " << endl << "(5) Five years " << endl;
+        cout << "Please select the length of time you are interested in (1-5): ";
+        userEntry = validatePositiveInteger();
+        if(userEntry > 5){
+            userEntry = 0;
+            cout << "Please select a valid option" << endl;
+        }
+        if(userEntry == 1){
+            lengthOfTime = "5d";
+        }
+        else if(userEntry == 2){
+            lengthOfTime ="1mo";
+        }
+        else if(userEntry == 3){
+            lengthOfTime = "6mo";
+        }
+        else if(userEntry == 4){
+            lengthOfTime = "1y";
+        }
+        else if(userEntry == 5){
+            lengthOfTime = "5y";
+        }
+    }
+    return lengthOfTime;
 }
 
 string MarketAPI::validateString() {

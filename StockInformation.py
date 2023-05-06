@@ -145,10 +145,10 @@ def main():
 
     tickerNames.append(sys.argv[3])
 
-    if numberOfTickers <= 3:
+    if numberOfTickers == 3:
         tickerNames.append(sys.argv[4])
         tickerNames.append(sys.argv[5])
-    elif numberOfTickers <= 2:
+    elif numberOfTickers == 2:
         tickerNames.append(sys.argv[4])
 
     print(tickerNames)
