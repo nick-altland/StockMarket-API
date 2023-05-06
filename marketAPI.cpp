@@ -1,6 +1,6 @@
 /*
  * Nicholas Altland
- * CS120B: Open Ended Project
+ * CS120B: Final Project
  *
  * Stock Market API: marketAPI.h source File
  *
@@ -116,6 +116,64 @@ void MarketAPI::writeStockFile(string &fileName, vector<Stock> &stocks) {
 
 int MarketAPI::getLineNumber() const {
     return lineNumber;
+}
+
+void MarketAPI::compareInvestments(vector<Stock> &stocks) {
+
+    vector<Stock> comparisonStocks;
+
+    for(Stock stock : stocks){
+        stock.calculateIntrinsicValue(stock);
+
+        stock.setYearlyReturns((stock.getEarningsPerShare()*stock.getInitialInvestment())/stock.getCurrentMarketValue());
+
+        cout << "The stock of ";
+        if(stock.getIntrinsicDifference() >=0){
+            cout << stock.getCompanyName() << " is currently OVERVALUED on the market by ";
+            cout << stock.getIntrinsicDifference() << ". I would not recommend purchasing it." << endl;
+        }
+        else if(stock.getIntrinsicDifference() < 0){
+            cout << stock.getCompanyName() << " is currently UNDERVALUED on the market by ";
+            cout << stock.getIntrinsicDifference() << ". It may be a good purchase." << endl;
+        }
+
+        cout << "Your stock with " << stock.getCompanyName() << " will earn you ";
+        cout << stock.getYearlyReturns() << " yearly" << endl << endl;
+    }
+
+    // If there is more than one stock, compare each stock in the set
+    if(stocks.size() == 2){
+        if(stocks[0] > stocks[1]){
+            cout << "Your stock with " << stocks[0].getCompanyName();
+            cout << " will earn you more yearly than your stock with " << stocks[1].getCompanyName() << endl;
+        }
+        else if(stocks[0] < stocks[1]){
+            cout << "Your stock with " << stocks[1].getCompanyName();
+            cout << " will earn you more yearly than your stock with " << stocks[0].getCompanyName() << endl;
+        }
+        else{
+            cout << "Both your stocks will earn you the same amount this year" << endl;
+        }
+
+    }
+    else if(stocks.size() == 3){
+
+        for (int i = 0; i < stocks.size(); i++) {
+            for (int j = i; j < (stocks.size()); j++) {
+                if (stocks[i] > stocks[j]) {
+                    swap(stocks[i], stocks[j]);
+                }
+            }
+        }
+
+        cout << "You will earn the most this year on " << stocks[0].getCompanyName() << ", second most with ";
+        cout << stocks[1].getCompanyName() << ", and least with " << stocks[2].getCompanyName();
+
+    }
+
+    for(Stock stock : stocks){
+
+    }
 }
 
 string MarketAPI::validateString() {

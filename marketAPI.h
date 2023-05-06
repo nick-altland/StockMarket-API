@@ -1,6 +1,6 @@
 /*
  * Nicholas Altland
- * CS120B: Open Ended Project
+ * CS120B: Final Project
  *
  * Stock Market API: marketAPI header File
  *
@@ -61,6 +61,9 @@ public:
 
     // Getter
     int getLineNumber() const;
+
+    //
+    void compareInvestments(std::vector<Stock> &stock);
 
     /*
      * validateStockName

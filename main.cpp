@@ -75,9 +75,20 @@ int main() {
         // For each stock on file add it to a vector of stocks, then pass that vector back to main
         stocksFromFile = stockAPI.readStockFile(stockFile, stocksFromFile);
 
+        // Set the initial investment for each ticker
         for(Stock tick : stocksFromFile){
-            cout << tick.getTickerName() << endl;
+            cout << "How much are you planning to invest in " << tick.getTickerName() << "?: ";
+            tick.setInitialInvestment(MarketAPI::validateFloatValue());
         }
+
+        cout << "Here are the values of the stocks you requested: " << endl;
+
+        for(Stock stock : stocksFromFile){
+            stock.printStock(stock);
+        }
+
+        // Compare the three stocks
+        stockAPI.compareInvestments(stocksFromFile);
 
         // Ask them if they create a new stock and a new bond. If yes, loop. If not, break loop
         cout << endl << "Do you wish to look up another Investment? (y/n): ";
@@ -88,4 +99,3 @@ int main() {
 
     return 0;
 }
-

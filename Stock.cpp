@@ -1,6 +1,6 @@
 /*
  * Nicholas Altland
- * CS120B: Open Ended Project
+ * CS120B: Final Project
  *
  * Stock Market API: Investment subclass Stock source file
  *
@@ -91,12 +91,12 @@ bool operator >= (const Stock &first, const Stock &second){
 }
 
 void Stock::printStock(Stock &userStock) {
-    cout << endl << "(1) Company Name: " << userStock.getCompanyName() << endl;
-    cout << "(2) Initial Investment: " << fixed << setprecision(2) << userStock.getInitialInvestment() << endl;
-    cout << "(3) Ticker Name: " << userStock.getTickerName() << endl;
-    cout << "(4) Current Market Value: " << userStock.getCurrentMarketValue() << endl;
-    cout << "(5) Expected Growth: " << userStock.getExpectedGrowth() << endl;
-    cout << "(6) Earnings Per Share (EPS): " << userStock.getEarningsPerShare() << endl << endl;
+    cout << endl << "Company Name: " << userStock.getCompanyName() << endl;
+    cout << "Initial Investment: " << fixed << setprecision(2) << userStock.getInitialInvestment() << endl;
+    cout << "Ticker Name: " << userStock.getTickerName() << endl;
+    cout << "Current Market Value: " << userStock.getCurrentMarketValue() << endl;
+    cout << "Expected Growth: " << userStock.getExpectedGrowth() << endl;
+    cout << "Earnings Per Share (EPS): " << userStock.getEarningsPerShare() << endl << endl;
 }
 
 

@@ -1,12 +1,11 @@
 /*
  * Nicholas Altland
- * CS120B: Open Ended Project
+ * CS120B: Final Project
  *
  * Stock Market API: Testing File
  *
  */
 
-#include "Bond.h"
 #include "Investment.h"
 #include "marketAPI.h"
 #include "Stock.h"
@@ -16,7 +15,6 @@
 using namespace std;
 
 bool testInvestment();
-bool testBond();
 bool testStock();
 bool testMarketAPI();
 
@@ -24,9 +22,6 @@ int main(){
 
     if(testInvestment()){
         cout << "All Investment test cases passed" << endl;
-    }
-    if(testBond()){
-        cout << "All Bond test cases passed" << endl;
     }
     if(testStock()){
         cout << "All Stock test cases passed" << endl;
@@ -71,79 +66,6 @@ bool testInvestment(){
     defaultTestInvest.setYearlyReturns(12.34);
     if(testInvest < defaultTestInvest){
         cout << "Investment Comparison failed" << endl;
-        passed = false;
-    }
-
-    return passed;
-}
-
-bool testBond(){
-    bool passed = true;
-
-    Bond defaultTestBond;
-    if(defaultTestBond.getInterestRate() - 5 >= 0.001){
-        cout << "Default Bond Interest Rate failed" << endl;
-        passed = false;
-    }
-    if(defaultTestBond.getMaturityPeriod() != 1){
-        cout << "Default Bond Maturity Period failed" << endl;
-        passed = false;
-    }
-    if(defaultTestBond.calculateInterestEarned(defaultTestBond) - 250.00 >= 0.001){
-        cout << "Default Bond calculate interest failed" << endl;
-        passed = false;
-    }
-
-    Bond testB("Google", 2000.00, 10, 10);
-    if(testB.getCompanyName() != "Google"){
-        cout << "Bond name initialization failed" << endl;
-        passed = false;
-    }
-    if(testB.getInitialInvestment() - 2000.00 >= 0.001){
-        cout << "Bond Initial Investment initialization failed" << endl;
-        passed = false;
-    }
-    if(testB.getInterestRate() - 10.0 >= 0.001){
-        cout << "Bond get interest rate initialization failed" << endl;
-        passed = false;
-    }
-    if(testB.getMaturityPeriod() != 10){
-        cout << "Bond get maturity period initialization failed" << endl;
-        passed = false;
-    }
-    testB.calculateInterestEarned(testB);
-    if(testB.getInterestEarned() - 2000.0 >= 0.001){
-        cout << "Calculate Interest on first iteration of testB failed" << endl;
-        passed = false;
-    }
-
-    testB.setCompanyName("Apple");
-    if(testB.getCompanyName() != "Apple"){
-        cout << "Bond set company name failed" << endl;
-        passed = false;
-    }
-    testB.setInitialInvestment(3000.00);
-    if(testB.getInitialInvestment() - 3000.00 >= 0.001){
-        cout << "Bond set Initial Investment Failed" << endl;
-        passed = false;
-    }
-    testB.setInterestRate(5);
-    if(testB.getInterestRate() - 5.0 >= 0.0001){
-        cout << "Bond set interest rate failed" << endl;
-        passed = false;
-    }
-    testB.setMaturityPeriod(5);
-    if(testB.getMaturityPeriod() != 5){
-        cout << "Bond set Maturity Period failed" << endl;
-        passed = false;
-    }
-    testB.calculateInterestEarned(testB);
-    if(testB.getInterestEarned() - 750.00 >= 0.001){
-        cout << "Calculate Interest Earned on second iteration of testB failed" << endl;
-        passed = false;
-    }
-    if(defaultTestBond > testB){
-        cout << "Bond comparison failed" << endl;
         passed = false;
     }
 
@@ -258,29 +180,12 @@ bool testMarketAPI(){
         cout << "MarketAPI default construction failed" << endl;
         passed = false;
     }
-    Bond bondAPI;
-    vector<Bond> testBondAPI;
-    string bondFileName = "../testBonds.csv";
-    string companyName = "company";
-
-    bondAPI = defaultAPI.readBondFile(bondFileName, testBondAPI, companyName);
-    if(bondAPI.getCompanyName() != "company" && bondAPI.getInitialInvestment() - 500 >= 0.001
-       && bondAPI.getInterestRate() - 5 >= 0.001 && bondAPI.getMaturityPeriod() != 20){
-        cout << "Market API: Bond construction failed" << endl;
-        passed = false;
-    }
 
     Stock stockAPI;
     vector<Stock> testStockAPI;
     string stockFileName = "../testStocks.csv";
-    companyName = "company";
+    string companyName = "company";
 
-    stockAPI = defaultAPI.readStockFile(stockFileName, testStockAPI, companyName);
-    if(stockAPI.getCompanyName() != "company" && stockAPI.getInitialInvestment() - 500 >= 0.001
-       && stockAPI.getCurrentMarketValue() - 55.5 >= 0.001 && stockAPI.getTickerName() != "COM"){
-        cout << "Market API: Stock construction failed" << endl;
-        passed = false;
-    }
 
     return passed;
 }
