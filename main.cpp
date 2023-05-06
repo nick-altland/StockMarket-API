@@ -27,7 +27,6 @@ const string python = "python";
 
 int main() {
     char userInputContinue = 'y';           // Used for main while loop, which exits when it is 'n'
-    char valid;                             // Used for checking both bond and stock while loops
     string stockFile = "../infoOnStocks.csv";   // Stock name
     string tickerNames;                         // Company name
 
@@ -52,7 +51,6 @@ int main() {
         while (numberOfTickers == 0) {
             cout << "How many stocks are you interested in today?(1-3): ";
             numberOfTickers = MarketAPI::validatePositiveInteger();
-
             if (numberOfTickers > 3) {
                 cout << endl << "Please enter a number less the three and greater then 0";
                 numberOfTickers = 0;
@@ -68,11 +66,16 @@ int main() {
             namesOfTickers.push_back(tickerNames);
         }
 
-        /*
-         * CALL PYTHON FUNCTION HERE
-         */
+        // Command line string to call python script to scrape the web for information
+        string command = python + " ../StockInformation.py " + to_string(numberOfTickers) + " 1y ";
 
+        for(string name: namesOfTickers){
+            command.append(name + " ");
+        }
 
+        cout << command << endl;
+
+        system(command.c_str());
 
         // For each stock on file add it to a vector of stocks, then pass that vector back to main
         stocksFromFile = stockAPI.readStockFile(stockFile, stocksFromFile);
@@ -85,14 +88,10 @@ int main() {
 
         cout << "Here are the values of the stocks you requested: " << endl;
 
-//        for(Stock stock : stocksFromFile){
-//            stock.printStock(stock);
-//        }
-
         // Compare the three stocks
         stockAPI.compareInvestments(stocksFromFile);
 
-//        system ("open images/stockData.png");
+        system(R"(C:\Users\nlalt\Desktop\stockData.png)");
 
         // Ask them if they create a new stock and a new bond. If yes, loop. If not, break loop
         cout << endl << "Do you wish to look up another Investment? (y/n): ";

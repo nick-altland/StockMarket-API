@@ -128,6 +128,8 @@ void MarketAPI::compareInvestments(vector<Stock> &stocks) {
 
         stock.setYearlyReturns((stock.getEarningsPerShare()*stock.getInitialInvestment())/stock.getCurrentMarketValue());
 
+        stock.printStock(stock);
+
         cout << "The stock of ";
         if(stock.getIntrinsicDifference() >=0){
             cout << stock.getCompanyName() << " is currently OVERVALUED on the market by ";

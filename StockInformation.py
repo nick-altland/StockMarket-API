@@ -4,6 +4,7 @@ import pandas as pd
 from matplotlib import pyplot as plt
 import matplotlib.lines as mlines
 import matplotlib as mpl
+import sys
 import yfinance as yf
 
 # Print out all the information
@@ -70,15 +71,16 @@ def createGraph(stockValues, stockNames, tickerNames):
     # Rotate the values on the x-axis by 45 degrees so that  they do not run into each other if too close together
     plt.xticks(rotation=45)
     # Save the graph (or show it: )
-    plt.show()
-    #plt.savefig('images/stockData.png')
+    #plt.show()
+    plt.savefig('/Users/nlalt/Desktop/stockData.png')
 
 
 # Write out the stock information to a CSV file. This will allow it to be used for calculations in the C++ file
 def csvWriter(outfileContents):
     header = ['name', 'initialInvestment', 'ticker', 'currentMarketValue', 'expectedGrowth', 'earningsPerShare']
+
     # Save data to a CSV file, Use this to create graphs and for Stock comparisons
-    with open('infoOnStocks.csv', 'w', encoding='UTF8', newline='') as outfile:
+    with open('../infoOnStocks.csv', 'w', encoding='UTF8', newline='') as outfile:
         # Create a CSV writer
         writer = csv.writer(outfile)
 
@@ -131,10 +133,26 @@ def main():
     # Add try/except loop for ticker validation
 
     # ticker names that are assigned through C++ program "SONY","AAPL","MSFT"
-    tickerNames = ["SONY","AAPL"]
+    tickerNames = []
+
+    # Number of tickers
+    numberOfTickers = int(sys.argv[1])
+
+    print(numberOfTickers)
 
     # Period length that is passed from C++ program
-    periodLength = "1y"
+    periodLength = sys.argv[2]
+
+    tickerNames.append(sys.argv[3])
+
+    if numberOfTickers <= 3:
+        tickerNames.append(sys.argv[4])
+        tickerNames.append(sys.argv[5])
+    elif numberOfTickers <= 2:
+        tickerNames.append(sys.argv[4])
+
+    print(tickerNames)
+
     # Assign interval length, based on time period
     intervalLength = getIntervalLength(periodLength)
 
