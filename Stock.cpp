@@ -96,7 +96,8 @@ void Stock::printStock(Stock &userStock) {
     cout << "Ticker Name: " << userStock.getTickerName() << endl;
     cout << "Current Market Value: " << userStock.getCurrentMarketValue() << endl;
     cout << "Expected Growth: " << userStock.getExpectedGrowth() << endl;
-    cout << "Earnings Per Share (EPS): " << userStock.getEarningsPerShare() << endl << endl;
+    cout << "Earnings Per Share (EPS): " << userStock.getEarningsPerShare() << endl;
+    cout << "Earnings Per Year: " << userStock.getYearlyReturns() << endl << endl;
 }
 
 

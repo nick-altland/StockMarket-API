@@ -11,6 +11,7 @@
 #include "Stock.h"
 
 #include <algorithm>
+#include <cstdlib>
 #include <fstream>
 #include <iostream>
 #include <vector>
@@ -29,7 +30,6 @@ int main() {
     char valid;                             // Used for checking both bond and stock while loops
     string stockFile = "../infoOnStocks.csv";   // Stock name
     string tickerNames;                         // Company name
-    int valueToChange = 0;                      // Integer for user input
 
     // Great user and explain what the program does
     cout << "Welcome to Nick Altland's Stock Market API." << endl;
@@ -72,6 +72,8 @@ int main() {
          * CALL PYTHON FUNCTION HERE
          */
 
+
+
         // For each stock on file add it to a vector of stocks, then pass that vector back to main
         stocksFromFile = stockAPI.readStockFile(stockFile, stocksFromFile);
 
@@ -83,12 +85,14 @@ int main() {
 
         cout << "Here are the values of the stocks you requested: " << endl;
 
-        for(Stock stock : stocksFromFile){
-            stock.printStock(stock);
-        }
+//        for(Stock stock : stocksFromFile){
+//            stock.printStock(stock);
+//        }
 
         // Compare the three stocks
         stockAPI.compareInvestments(stocksFromFile);
+
+//        system ("open images/stockData.png");
 
         // Ask them if they create a new stock and a new bond. If yes, loop. If not, break loop
         cout << endl << "Do you wish to look up another Investment? (y/n): ";

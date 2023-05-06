@@ -131,7 +131,7 @@ def main():
     # Add try/except loop for ticker validation
 
     # ticker names that are assigned through C++ program "SONY","AAPL","MSFT"
-    tickerNames = ["SONY","AAPL","MSFT"]
+    tickerNames = ["SONY","AAPL"]
 
     # Period length that is passed from C++ program
     periodLength = "1y"

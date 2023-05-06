@@ -123,6 +123,7 @@ void MarketAPI::compareInvestments(vector<Stock> &stocks) {
     vector<Stock> comparisonStocks;
 
     for(Stock stock : stocks){
+
         stock.calculateIntrinsicValue(stock);
 
         stock.setYearlyReturns((stock.getEarningsPerShare()*stock.getInitialInvestment())/stock.getCurrentMarketValue());
@@ -138,40 +139,36 @@ void MarketAPI::compareInvestments(vector<Stock> &stocks) {
         }
 
         cout << "Your stock with " << stock.getCompanyName() << " will earn you ";
-        cout << stock.getYearlyReturns() << " yearly" << endl << endl;
+        cout << stock.getYearlyReturns() << " yearly with a " << stock.getInitialInvestment();
+        cout << " initial investment." << endl << endl;
+
+        comparisonStocks.push_back(stock);
     }
 
-    // If there is more than one stock, compare each stock in the set
-    if(stocks.size() == 2){
-        if(stocks[0] > stocks[1]){
-            cout << "Your stock with " << stocks[0].getCompanyName();
-            cout << " will earn you more yearly than your stock with " << stocks[1].getCompanyName() << endl;
+    if(comparisonStocks.size() == 2){
+        if(comparisonStocks[0] < comparisonStocks[1]){
+            cout << "Your stock with " << comparisonStocks[0].getCompanyName();
+            cout << " will earn you more yearly than your stock with " << comparisonStocks[1].getCompanyName() << endl;
         }
-        else if(stocks[0] < stocks[1]){
-            cout << "Your stock with " << stocks[1].getCompanyName();
-            cout << " will earn you more yearly than your stock with " << stocks[0].getCompanyName() << endl;
+        else if(comparisonStocks[1] < comparisonStocks[0]){
+            cout << "Your stock with " << comparisonStocks[1].getCompanyName();
+            cout << " will earn you more yearly than your stock with " << comparisonStocks[0].getCompanyName() << endl;
         }
         else{
             cout << "Both your stocks will earn you the same amount this year" << endl;
         }
-
     }
-    else if(stocks.size() == 3){
-
-        for (int i = 0; i < stocks.size(); i++) {
-            for (int j = i; j < (stocks.size()); j++) {
-                if (stocks[i] > stocks[j]) {
-                    swap(stocks[i], stocks[j]);
+    else if(comparisonStocks.size() == 3){
+        for (int i = 0; i < comparisonStocks.size(); i++) {
+            for (int j = i; j < (comparisonStocks.size()); j++) {
+                if (comparisonStocks[i] > comparisonStocks[j]) {
+                    swap(comparisonStocks[i], comparisonStocks[j]);
                 }
             }
         }
 
-        cout << "You will earn the most this year on " << stocks[0].getCompanyName() << ", second most with ";
-        cout << stocks[1].getCompanyName() << ", and least with " << stocks[2].getCompanyName();
-
-    }
-
-    for(Stock stock : stocks){
+        cout << "You will earn the most this year on " << comparisonStocks[0].getCompanyName() << ", second most with ";
+        cout << comparisonStocks[1].getCompanyName() << ", and least with " << comparisonStocks[2].getCompanyName();
 
     }
 }
