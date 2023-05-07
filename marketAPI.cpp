@@ -136,6 +136,8 @@ void MarketAPI::compareInvestments(vector<Stock> &stocks) {
             }
         }
 
+        investment = -1.0;
+
         stock.calculateIntrinsicValue(stock);
 
         stock.setYearlyReturns((stock.getEarningsPerShare()*stock.getInitialInvestment())/stock.getCurrentMarketValue());

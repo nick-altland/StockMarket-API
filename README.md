@@ -34,13 +34,16 @@ After the python program terminates, the C++ program reads the stock information
 
 - I created this program on Windows 10. I have no way of testing it on Linux or MacOS
 
-
 ### Grade You Think You have Earned
 
 I only need a 30 on this project, and looking at the requirements, I know I have earned at least that. This project was done for personal enjoyment and exploration, and the grade was the knowledge I gained along the way. That being said, 168.2. Some code is based on previous projects, but is heavily modified.
 
 SOURCES:
+
 [MatPlotLib: Tutorial on Creating a Legend](https://matplotlib.org/stable/tutorials/intermediate/legend_guide.html)
 [Project yfinance](https://pypi.org/project/yfinance/)
 [YaHoo Finance](https://finance.yahoo.com)
 
+LINK TO VIDEO:
+
+https://youtu.be/GMKAVyUaOdc
