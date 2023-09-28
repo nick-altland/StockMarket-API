@@ -1,6 +1,5 @@
 /*
  * Nicholas Altland
- * CS120B: Open Ended Project
  *
  * Stock Market API: Investment Super Class source file
  *

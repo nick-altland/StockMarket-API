@@ -1,6 +1,6 @@
 # Stock Market API and Web Scrapper
 
-### Nick Altland, CS120B, Final Project
+### Created by Nicholas Altland
 
 ### Directions:
 
@@ -23,20 +23,10 @@ The python script takes all the information from the command line statement and 
 
 After the python program terminates, the C++ program reads the stock information scrapped from YaHoo from the CSV file. Each are added to the stock vector from above and passed to the MarketAPI function compareInvestments. In this function, various other Investment and Stock functions are called to calculate which stock will perform the best. Finally, back in main, another commandline statement is called to show the graph created above. The user is then prompted to see if they want to go again.
 
-### Concepts Used
-
-- module 1: User validation
-- module 2: Polymorphism, user input, file input and output
-- module 3: Python and command line, matplotlib
-- module 4: Displaying images
 
 ### The OS 
 
 - I created this program on Windows 10. I have no way of testing it on Linux or MacOS
-
-### Grade You Think You have Earned
-
-I only need a 30 on this project, and looking at the requirements, I know I have earned at least that. This project was done for personal enjoyment and exploration, and the grade was the knowledge I gained along the way. That being said, 168.2. Some code is based on previous projects, but is heavily modified.
 
 SOURCES:
 

@@ -1,6 +1,5 @@
 /*
  * Nicholas Altland
- * CS120B: Final Project
  *
  * Stock Market API: Investment subclass Stock source file
  *

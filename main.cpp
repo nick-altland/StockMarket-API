@@ -1,6 +1,5 @@
 /*
  * Nicholas Altland
- * CS120B: Final Project
  *
  * Stock Market API: main File
  *
@@ -29,7 +28,7 @@ int main() {
     string tickerNames;                         // Company ticker name
     string lengthOfTime;                           // The interval we are pulling stocks from
     string command;                             // Command line string
-    string userDesktop = R"((C:\Users\nlalt\Desktop\stockData.png))";
+    string userDesktop = R"((..\Desktop\stockData.png))"; // REPLACE WITH WHERE YOU WANT THE PHOTO STORED
 
     // Great user and explain what the program does
     cout << "Welcome to Nick Altland's Stock Market API." << endl;
